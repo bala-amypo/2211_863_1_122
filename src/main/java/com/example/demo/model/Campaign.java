@@ -15,7 +15,7 @@ public class Campaign {
     private LocalDate endDate;
     private BigDecimal budget; // [cite: 1160]
 
-    public Campaign() {}
+   
     public Campaign(String campaignName, LocalDate startDate, LocalDate endDate) {
         this.campaignName = campaignName;
         this.startDate = startDate;
