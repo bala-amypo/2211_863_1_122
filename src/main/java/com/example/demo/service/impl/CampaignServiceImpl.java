@@ -1,77 +1,28 @@
-package com.example.demo.service.impl;
+package com.example.demo.model;
 
-import com.example.demo.model.Campaign;
-import com.example.demo.repository.CampaignRepository;
-import com.example.demo.service.CampaignService;
-import com.example.demo.exception.ResourceNotFoundException;
-import org.springframework.stereotype.Service;
-
+import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDate;
 
-@Service
-public class CampaignServiceImpl implements CampaignService {
+@Entity
+@Table(name = "campaigns")
+public class Campaign {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
+    private String campaignName;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private BigDecimal budget;
+    private Boolean active = true;
 
-    private final CampaignRepository campaignRepository;
-
-    // Constructor Injection
-    public CampaignServiceImpl(CampaignRepository campaignRepository) {
-        this.campaignRepository = campaignRepository;
-    }
-
-    @Override
-    public Campaign createCampaign(Campaign campaign) {
-        // 1. Validate Campaign Name Uniqueness
-        if (campaignRepository.findByCampaignName(campaign.getCampaignName()).isPresent()) {
-            throw new RuntimeException("Campaign name must be unique");
-        }
-
-        // 2. Validate Budget (Must be non-negative BigDecimal)
-        if (campaign.getBudget() == null || campaign.getBudget().compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("Budget must be non-negative");
-        }
-
-        // 3. Validate Date Range (Start Date must be before End Date)
-        if (campaign.getStartDate() != null && campaign.getEndDate() != null) {
-            if (campaign.getStartDate().isAfter(campaign.getEndDate())) {
-                throw new RuntimeException("Start date must be before end date");
-            }
-        } else {
-            throw new RuntimeException("Campaign must have both start and end dates");
-        }
-
-        return campaignRepository.save(campaign);
-    }
-
-    @Override
-    public Campaign getCampaignById(Long id) {
-        return campaignRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Campaign not found with id: " + id));
-    }
-
-    @Override
-    public List<Campaign> getAllCampaigns() {
-        return campaignRepository.findAll();
-    }
-
-    @Override
-    public Campaign updateCampaign(Long id, Campaign campaignDetails) {
-        Campaign existingCampaign = getCampaignById(id);
-
-        // Update fields
-        existingCampaign.setCampaignName(campaignDetails.getCampaignName());
-        existingCampaign.setBudget(campaignDetails.getBudget());
-        existingCampaign.setStartDate(campaignDetails.getStartDate());
-        existingCampaign.setEndDate(campaignDetails.getEndDate());
-
-        // Re-run validations
-        if (existingCampaign.getBudget().compareTo(BigDecimal.ZERO) < 0) {
-            throw new RuntimeException("Budget must be non-negative");
-        }
-        if (existingCampaign.getStartDate().isAfter(existingCampaign.getEndDate())) {
-            throw new RuntimeException("Start date must be before end date");
-        }
-
-        return campaignRepository.save(existingCampaign);
-    }
+    // Getters and Setters (Fixes "cannot find symbol" in CampaignServiceImpl)
+    public String getCampaignName() { return campaignName; }
+    public void setCampaignName(String campaignName) { this.campaignName = campaignName; }
+    public BigDecimal getBudget() { return budget; }
+    public void setBudget(BigDecimal budget) { this.budget = budget; }
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 }
