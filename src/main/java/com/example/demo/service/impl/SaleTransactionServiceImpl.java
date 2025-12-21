@@ -19,6 +19,9 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
     public List<SaleTransaction> getSalesByCampaign(Long campaignId) {
         return saleTransactionRepository.findByDiscountCode_Campaign_Id(campaignId);
     }
-    
-    // implement other methods like logSale, getSaleById, etc.
+
+    @Override
+    public List<SaleTransaction> getSalesByInfluencer(Long influencerId) {
+        return saleTransactionRepository.findByDiscountCode_Influencer_Id(influencerId);
+    }
 }

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "campaigns")
 public class Campaign {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,7 +14,8 @@ public class Campaign {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    // Getters and Setters - Required to fix "cannot find symbol"
+    // Getters and Setters - Required to fix symbol errors in CampaignServiceImpl
+    public Long getId() { return id; }
     public String getCampaignName() { return campaignName; }
     public void setCampaignName(String name) { this.campaignName = name; }
     public BigDecimal getBudget() { return budget; }

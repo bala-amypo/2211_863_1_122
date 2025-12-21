@@ -16,13 +16,18 @@ public class RoiServiceImpl implements RoiService {
 
     @Override
     public RoiReport generateCampaignRoi(Long campaignId) {
-        // Your logic here
+        // Implementation logic
         return new RoiReport();
     }
 
-    // Resolves "does not override abstract method getReportsByCampaign"
+    // Fixes the missing method error from RoiService interface
     @Override
     public List<RoiReport> getReportsByCampaign(Long campaignId) {
         return roiReportRepository.findByCampaign_Id(campaignId);
+    }
+
+    @Override
+    public List<RoiReport> getReportsByInfluencer(Long influencerId) {
+        return roiReportRepository.findByInfluencer_Id(influencerId);
     }
 }
