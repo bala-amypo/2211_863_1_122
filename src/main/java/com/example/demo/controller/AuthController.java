@@ -18,5 +18,5 @@ public class AuthController {
         return userService.registerUser(user);
     }
     
-    // Login omitted as per "Skip security/DTO" instruction
+   
 }

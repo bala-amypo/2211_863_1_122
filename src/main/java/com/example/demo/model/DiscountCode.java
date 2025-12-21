@@ -23,5 +23,5 @@ public class DiscountCode {
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
-    // Getters and Setters
+    
 }

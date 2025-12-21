@@ -14,7 +14,7 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
     private final SaleTransactionRepository saleRepo;
     private final DiscountCodeRepository codeRepo;
 
-    // Specific constructor order [cite: 1147]
+   
     public SaleTransactionServiceImpl(SaleTransactionRepository saleRepo, DiscountCodeRepository codeRepo) {
         this.saleRepo = saleRepo;
         this.codeRepo = codeRepo;

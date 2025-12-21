@@ -21,5 +21,5 @@ public class Campaign {
         this.startDate = startDate;
         this.endDate = endDate;
     }
-    // Getters and Setters...
+   
 }

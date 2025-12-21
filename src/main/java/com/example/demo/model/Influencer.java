@@ -24,5 +24,5 @@ public class Influencer {
         this.socialHandle = socialHandle;
         this.active = active;
     }
-    // Getters and Setters...
+    
 }

@@ -10,8 +10,8 @@ public class RoiReport {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Long referenceId; // Can be Campaign ID or Influencer ID
-    private String reportType; // "CAMPAIGN" or "INFLUENCER"
+    private Long referenceId; 
+    private String reportType; 
     
     private BigDecimal totalSales;
     private BigDecimal totalRevenue;
@@ -22,5 +22,5 @@ public class RoiReport {
     @PrePersist
     protected void onGenerate() { this.generatedAt = LocalDateTime.now(); }
     
-    // Getters and Setters
+   
 }

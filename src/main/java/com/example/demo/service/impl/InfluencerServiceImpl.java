@@ -11,7 +11,7 @@ import java.util.List;
 public class InfluencerServiceImpl implements InfluencerService {
     private final InfluencerRepository repository;
 
-    // Constructor Injection [cite: 1144]
+   
     public InfluencerServiceImpl(InfluencerRepository repository) {
         this.repository = repository;
     }

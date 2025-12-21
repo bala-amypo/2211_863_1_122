@@ -22,5 +22,5 @@ public class RoiReport {
     @PrePersist
     protected void onGenerate() { this.generatedAt = LocalDateTime.now(); }
     
-    // Getters and Setters
+    
 }
