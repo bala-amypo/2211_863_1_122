@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String password;
     private String role; // e.g., "ADMIN", "MARKETER"
-
+   public String getEmail() { return email; }
+public void setEmail(String email) { this.email = email; }
     
-}
+}// Fixes "cannot find symbol method getEmail()"

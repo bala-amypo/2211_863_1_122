@@ -17,7 +17,9 @@ public class Influencer {
 
     @PrePersist
     protected void onCreate() { this.createdAt = new Timestamp(System.currentTimeMillis()); } // [cite: 1168]
-
+    // Fixes "cannot find symbol method getName()"
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getSocialHandle() { return socialHandle; }
