@@ -1,7 +1,11 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.Campaign;
+import com.example.demo.model.RoiReport;
+import com.example.demo.model.SaleTransaction;
+import com.example.demo.repository.CampaignRepository;
+import com.example.demo.repository.RoiReportRepository;
+import com.example.demo.repository.SaleTransactionRepository;
 import com.example.demo.service.RoiService;
 import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,7 +21,9 @@ public class RoiServiceImpl implements RoiService {
     private final CampaignRepository campaignRepo;
     private final RoiReportRepository roiRepo;
 
-    public RoiServiceImpl(SaleTransactionRepository saleRepo, CampaignRepository campaignRepo, RoiReportRepository roiRepo) {
+    public RoiServiceImpl(SaleTransactionRepository saleRepo, 
+                          CampaignRepository campaignRepo, 
+                          RoiReportRepository roiRepo) {
         this.saleRepo = saleRepo;
         this.campaignRepo = campaignRepo;
         this.roiRepo = roiRepo;
@@ -28,10 +34,10 @@ public class RoiServiceImpl implements RoiService {
         Campaign campaign = campaignRepo.findById(campaignId)
                 .orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
 
-        // Use the exact repository method name required for attribution
+        // Attribution: Fetch all sales linked to this campaign
         List<SaleTransaction> transactions = saleRepo.findByDiscountCode_Campaign_Id(campaignId);
         
-        // Sum up total revenue
+        // Sum total revenue using BigDecimal
         BigDecimal totalRevenue = transactions.stream()
                 .map(SaleTransaction::getSaleAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -39,7 +45,7 @@ public class RoiServiceImpl implements RoiService {
         BigDecimal budget = campaign.getBudget();
         BigDecimal roiPercentage = BigDecimal.ZERO;
 
-        // ROI Calculation: ((Revenue - Budget) / Budget) * 100
+        // ROI Formula: ((Revenue - Budget) / Budget) * 100
         if (budget.compareTo(BigDecimal.ZERO) > 0) {
             roiPercentage = totalRevenue.subtract(budget)
                     .divide(budget, 4, RoundingMode.HALF_UP)
