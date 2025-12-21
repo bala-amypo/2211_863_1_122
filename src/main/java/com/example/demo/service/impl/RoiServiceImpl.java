@@ -14,15 +14,15 @@ public class RoiServiceImpl implements RoiService {
         this.roiReportRepository = roiReportRepository;
     }
 
-    // Fixes the "not abstract and does not override" error
+    @Override
+    public RoiReport generateCampaignRoi(Long campaignId) {
+        // Your logic here
+        return new RoiReport();
+    }
+
+    // Resolves "does not override abstract method getReportsByCampaign"
     @Override
     public List<RoiReport> getReportsByCampaign(Long campaignId) {
         return roiReportRepository.findByCampaign_Id(campaignId);
-    }
-
-    @Override
-    public RoiReport generateCampaignRoi(Long campaignId) {
-        // Implementation logic here...
-        return new RoiReport();
     }
 }
