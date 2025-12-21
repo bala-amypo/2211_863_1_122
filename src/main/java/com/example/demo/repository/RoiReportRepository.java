@@ -3,12 +3,11 @@ package com.example.demo.repository;
 import com.example.demo.model.RoiReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
-import java.util.Optional;
 
 public interface RoiReportRepository extends JpaRepository<RoiReport, Long> {
-    // Keep ONLY one instance of this method
-    Optional<RoiReport> findByReferenceIdAndReportType(Long referenceId, String reportType);
-    
+    // Use the exact naming required by Step 0 [cite: 1158]
     List<RoiReport> findByCampaign_Id(Long campaignId);
+    
+    // For influencer reports, use the relationship mapping
     List<RoiReport> findByInfluencer_Id(Long influencerId);
 }
