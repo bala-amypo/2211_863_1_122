@@ -21,7 +21,11 @@ public class SaleTransactionServiceImpl implements SaleTransactionService {
         this.saleRepo = saleRepo;
         this.codeRepo = codeRepo;
     }
-
+@Override
+public List<SaleTransaction> getSalesByCampaign(Long campaignId) {
+    // This override fixes the error in SaleTransactionServiceImpl
+    return saleTransactionRepository.findByDiscountCode_Campaign_Id(campaignId);
+}
     @Override
     public SaleTransaction logSale(SaleTransaction transaction) {
         // Validation: Sale must be a positive number
