@@ -15,17 +15,17 @@ public class SaleTransaction {
     private DiscountCode discountCode;
 
     private BigDecimal saleAmount; // Used by getSaleAmount() [cite: 1160, 1183]
-    private Timestamp transactionDate; // Used by getTransactionDate() [cite: 1183]
+    private Timestamp transactionDate;
 
     @PrePersist
     protected void onCreate() { 
         if (this.transactionDate == null) this.transactionDate = new Timestamp(System.currentTimeMillis()); 
-    } [cite: 758, 1186]
+    } // [cite: 909, 1186]
 
-    // Standard Getters and Setters
     public BigDecimal getSaleAmount() { return saleAmount; }
+    public void setSaleAmount(BigDecimal saleAmount) { this.saleAmount = saleAmount; }
     public Timestamp getTransactionDate() { return transactionDate; }
     public void setTransactionDate(Timestamp transactionDate) { this.transactionDate = transactionDate; }
     public DiscountCode getDiscountCode() { return discountCode; }
-    // ... add other getters/setters
+    public void setDiscountCode(DiscountCode discountCode) { this.discountCode = discountCode; }
 }

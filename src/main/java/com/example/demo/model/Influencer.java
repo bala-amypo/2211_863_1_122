@@ -10,19 +10,20 @@ public class Influencer {
     private Long id;
     private String name;
     @Column(unique = true)
-    private String socialHandle; // Used by getSocialHandle() [cite: 689, 1153]
+    private String socialHandle; // Must be unique [cite: 689, 1166]
     private String email;
     private Boolean active = true; // Default to true [cite: 690, 1167]
     private Timestamp createdAt;
 
     @PrePersist
-    protected void onCreate() { this.createdAt = new Timestamp(System.currentTimeMillis()); } [cite: 1168]
+    protected void onCreate() { this.createdAt = new Timestamp(System.currentTimeMillis()); } // [cite: 1168]
 
-    // Standard Getters and Setters
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public String getSocialHandle() { return socialHandle; }
     public void setSocialHandle(String socialHandle) { this.socialHandle = socialHandle; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
     public Boolean getActive() { return active; }
     public void setActive(Boolean active) { this.active = active; }
-    // ... add other getters/setters for name, email, createdAt
 }
