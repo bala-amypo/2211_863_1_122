@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "roi_reports")
+@Table(name = "Roi_reports")
 public class RoiReport {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
