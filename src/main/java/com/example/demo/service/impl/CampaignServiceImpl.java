@@ -1,28 +1,65 @@
-package com.example.demo.model;
+package com.example.demo.service.impl;
 
-import jakarta.persistence.*;
+import com.example.demo.model.Campaign;
+import com.example.demo.repository.CampaignRepository;
+import com.example.demo.service.CampaignService;
+import com.example.demo.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.List;
 
-@Entity
-@Table(name = "campaigns")
-public class Campaign {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true)
-    private String campaignName;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private BigDecimal budget;
-    private Boolean active = true;
+@Service
+public class CampaignServiceImpl implements CampaignService {
 
-    // Getters and Setters (Fixes "cannot find symbol" in CampaignServiceImpl)
-    public String getCampaignName() { return campaignName; }
-    public void setCampaignName(String campaignName) { this.campaignName = campaignName; }
-    public BigDecimal getBudget() { return budget; }
-    public void setBudget(BigDecimal budget) { this.budget = budget; }
-    public LocalDate getStartDate() { return startDate; }
-    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
-    public LocalDate getEndDate() { return endDate; }
-    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+    private final CampaignRepository campaignRepository;
+
+    public CampaignServiceImpl(CampaignRepository campaignRepository) {
+        this.campaignRepository = campaignRepository;
+    }
+
+    @Override
+    public Campaign createCampaign(Campaign campaign) {
+        // Unique name validation
+        if (campaignRepository.findByCampaignName(campaign.getCampaignName()).isPresent()) {
+            throw new RuntimeException("Campaign name must be unique");
+        }
+
+        // Budget validation
+        if (campaign.getBudget() == null || campaign.getBudget().compareTo(BigDecimal.ZERO) < 0) {
+            throw new RuntimeException("Budget must be non-negative");
+        }
+
+        // Date range validation
+        if (campaign.getStartDate() != null && campaign.getEndDate() != null) {
+            if (campaign.getStartDate().isAfter(campaign.getEndDate())) {
+                throw new RuntimeException("Start date must be before end date");
+            }
+        }
+
+        return campaignRepository.save(campaign);
+    }
+
+    @Override
+    public Campaign getCampaignById(Long id) {
+        return campaignRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
+    }
+
+    @Override
+    public List<Campaign> getAllCampaigns() {
+        return campaignRepository.findAll();
+    }
+
+    @Override
+    public Campaign updateCampaign(Long id, Campaign details) {
+        Campaign campaign = getCampaignById(id);
+        
+        campaign.setCampaignName(details.getCampaignName());
+        campaign.setBudget(details.getBudget());
+        campaign.setStartDate(details.getStartDate());
+        campaign.setEndDate(details.getEndDate());
+
+        return campaignRepository.save(campaign);
+    }
 }
