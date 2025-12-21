@@ -13,14 +13,14 @@ public class InfluencerServiceImpl implements InfluencerService {
 
     private final InfluencerRepository influencerRepository;
 
-    // Constructor injection as per requirements
+    // Constructor injection is mandatory for these assessment platforms
     public InfluencerServiceImpl(InfluencerRepository influencerRepository) {
         this.influencerRepository = influencerRepository;
     }
 
     @Override
     public Influencer createInfluencer(Influencer influencer) {
-        // Business Rule: Social handle must be unique
+        // Business Rule: Check if social handle is already taken
         if (influencerRepository.findBySocialHandle(influencer.getSocialHandle()).isPresent()) {
             throw new RuntimeException("Duplicate social handle");
         }
@@ -30,10 +30,19 @@ public class InfluencerServiceImpl implements InfluencerService {
     @Override
     public Influencer updateInfluencer(Long id, Influencer influencerDetails) {
         Influencer influencer = getInfluencerById(id);
+        
+        // Check for handle uniqueness if the handle is being changed
+        if (!influencer.getSocialHandle().equals(influencerDetails.getSocialHandle())) {
+            if (influencerRepository.findBySocialHandle(influencerDetails.getSocialHandle()).isPresent()) {
+                throw new RuntimeException("Duplicate social handle");
+            }
+        }
+
         influencer.setName(influencerDetails.getName());
         influencer.setSocialHandle(influencerDetails.getSocialHandle());
         influencer.setEmail(influencerDetails.getEmail());
         influencer.setActive(influencerDetails.getActive());
+        
         return influencerRepository.save(influencer);
     }
 
@@ -50,9 +59,7 @@ public class InfluencerServiceImpl implements InfluencerService {
 
     @Override
     public void deleteInfluencer(Long id) {
-        if (!influencerRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Influencer not found");
-        }
-        influencerRepository.deleteById(id);
+        Influencer influencer = getInfluencerById(id);
+        influencerRepository.delete(influencer);
     }
 }

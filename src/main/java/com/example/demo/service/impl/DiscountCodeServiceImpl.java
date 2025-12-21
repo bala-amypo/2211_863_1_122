@@ -13,14 +13,13 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
 
     private final DiscountCodeRepository discountCodeRepository;
 
-    // Constructor injection
     public DiscountCodeServiceImpl(DiscountCodeRepository discountCodeRepository) {
         this.discountCodeRepository = discountCodeRepository;
     }
 
     @Override
     public DiscountCode createDiscountCode(DiscountCode code) {
-        // Business Rule: Code string must be unique
+        // Business Rule: The code string (e.g., 'SAVE20') must be unique in the system
         if (discountCodeRepository.findByCode(code.getCode()).isPresent()) {
             throw new RuntimeException("Discount code must be unique");
         }
@@ -30,9 +29,11 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
     @Override
     public DiscountCode updateDiscountCode(Long id, DiscountCode codeDetails) {
         DiscountCode code = getCodeById(id);
+        
         code.setCode(codeDetails.getCode());
         code.setDiscountPercentage(codeDetails.getDiscountPercentage());
         code.setActive(codeDetails.getActive());
+        
         return discountCodeRepository.save(code);
     }
 
@@ -49,7 +50,7 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
 
     @Override
     public List<DiscountCode> getCodesByCampaign(Long campaignId) {
-        // This resolves the missing method error from the previous build
+        // Maps to the exact repository method needed for campaign-level reporting
         return discountCodeRepository.findByCampaign_Id(campaignId);
     }
 
