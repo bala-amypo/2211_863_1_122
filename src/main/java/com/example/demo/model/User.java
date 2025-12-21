@@ -12,5 +12,5 @@ public class User {
     private String password;
     private String role; // e.g., "ADMIN", "MARKETER"
 
-    // Getters and Setters
+    
 }
