@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/influencers") // [cite: 1262]
+@RequestMapping("/api/influencers") 
 public class InfluencerController {
     private final InfluencerService influencerService;
 

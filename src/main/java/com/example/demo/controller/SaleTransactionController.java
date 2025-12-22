@@ -14,7 +14,7 @@ public class SaleTransactionController {
 
     private final SaleTransactionService saleTransactionService;
 
-    // Constructor injection as per project rules
+   
     public SaleTransactionController(SaleTransactionService saleTransactionService) {
         this.saleTransactionService = saleTransactionService;
     }

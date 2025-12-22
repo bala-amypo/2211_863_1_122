@@ -14,7 +14,7 @@ public class CampaignController {
 
     private final CampaignService campaignService;
 
-    // Constructor injection as required by the documentation
+    
     public CampaignController(CampaignService campaignService) {
         this.campaignService = campaignService;
     }

@@ -13,7 +13,6 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Handle specific ResourceNotFoundException
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         Map<String, Object> errorDetails = new HashMap<>();
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
-    // Handle global exceptions (e.g., RuntimeException for validation failures)
+  
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleGlobalException(RuntimeException ex, WebRequest request) {
         Map<String, Object> errorDetails = new HashMap<>();
