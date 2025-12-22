@@ -14,11 +14,11 @@ public class RoiReport {
     private BigDecimal totalRevenue;
     private BigDecimal roiPercentage;
 
-    // Setters - Required for RoiServiceImpl to map report data
+    
     public void setReferenceId(Long id) { this.referenceId = id; }
     public void setReportType(String type) { this.reportType = type; }
     public void setTotalSales(BigDecimal sales) { this.totalSales = sales; }
     public void setTotalRevenue(BigDecimal revenue) { this.totalRevenue = revenue; }
     public void setRoiPercentage(BigDecimal roi) { this.roiPercentage = roi; }
-    // Add corresponding getters...
+   
 }

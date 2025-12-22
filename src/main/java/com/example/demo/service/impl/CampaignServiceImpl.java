@@ -14,14 +14,14 @@ public class CampaignServiceImpl implements CampaignService {
 
     private final CampaignRepository campaignRepository;
 
-    // Use constructor injection as preferred by Spring and required for testing
+   
     public CampaignServiceImpl(CampaignRepository campaignRepository) {
         this.campaignRepository = campaignRepository;
     }
 
     @Override
     public Campaign createCampaign(Campaign campaign) {
-        // Validation: Campaign name must be unique
+        
         if (campaignRepository.findByCampaignName(campaign.getCampaignName()).isPresent()) {
             throw new RuntimeException("Campaign name must be unique");
         }

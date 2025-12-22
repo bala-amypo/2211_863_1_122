@@ -14,13 +14,13 @@ public class SaleTransaction {
     @JoinColumn(name = "discount_code_id")
     private DiscountCode discountCode;
 
-    private BigDecimal saleAmount; // Used by getSaleAmount() [cite: 1160, 1183]
+    private BigDecimal saleAmount; 
     private Timestamp transactionDate;
 
     @PrePersist
     protected void onCreate() { 
         if (this.transactionDate == null) this.transactionDate = new Timestamp(System.currentTimeMillis()); 
-    } // [cite: 909, 1186]
+    } 
 
     public BigDecimal getSaleAmount() { return saleAmount; }
     public void setSaleAmount(BigDecimal saleAmount) { this.saleAmount = saleAmount; }

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface InfluencerRepository extends JpaRepository<Influencer, Long> {
-    // Required for the unique social handle validation in InfluencerServiceImpl
+    
     Optional<Influencer> findBySocialHandle(String socialHandle);
 }

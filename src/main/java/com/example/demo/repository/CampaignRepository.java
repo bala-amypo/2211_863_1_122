@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface CampaignRepository extends JpaRepository<Campaign, Long> {
-    // Required for unique name validation in CampaignServiceImpl
+    
     Optional<Campaign> findByCampaignName(String campaignName);
 }
