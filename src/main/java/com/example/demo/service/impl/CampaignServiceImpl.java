@@ -26,12 +26,12 @@ public class CampaignServiceImpl implements CampaignService {
             throw new RuntimeException("Campaign name must be unique");
         }
 
-        // Validation: Budget must be non-negative
+        
         if (campaign.getBudget() == null || campaign.getBudget().compareTo(BigDecimal.ZERO) < 0) {
             throw new RuntimeException("Budget must be non-negative");
         }
 
-        // Validation: Start date must be before end date
+        
         if (campaign.getStartDate() != null && campaign.getEndDate() != null) {
             if (campaign.getStartDate().isAfter(campaign.getEndDate())) {
                 throw new RuntimeException("Start date must be before end date");
@@ -45,13 +45,13 @@ public class CampaignServiceImpl implements CampaignService {
     public Campaign updateCampaign(Long id, Campaign campaignDetails) {
         Campaign campaign = getCampaignById(id);
 
-        // Update fields
+        
         campaign.setCampaignName(campaignDetails.getCampaignName());
         campaign.setBudget(campaignDetails.getBudget());
         campaign.setStartDate(campaignDetails.getStartDate());
         campaign.setEndDate(campaignDetails.getEndDate());
 
-        // Re-validate business rules on update
+        
         if (campaign.getBudget().compareTo(BigDecimal.ZERO) < 0) {
             throw new RuntimeException("Budget must be non-negative");
         }
@@ -64,7 +64,7 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public Campaign getCampaignById(Long id) {
-        // Use custom exception to return 404 status
+        
         return campaignRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
     }
