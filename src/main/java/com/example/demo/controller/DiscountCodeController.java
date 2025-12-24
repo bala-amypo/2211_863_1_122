@@ -26,4 +26,15 @@ public class DiscountCodeController {
     public ResponseEntity<List<DiscountCode>> getByInfluencer(@PathVariable Long influencerId) {
         return ResponseEntity.ok(service.getCodesByInfluencer(influencerId));
     }
+
+    @GetMapping("/campaign/{campaignId}")
+    public ResponseEntity<List<DiscountCode>> getByCampaign(@PathVariable Long campaignId) {
+        return ResponseEntity.ok(service.getCodesByCampaign(campaignId));
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
+        service.deactivateCode(id);
+        return ResponseEntity.noContent().build();
+    }
 }
