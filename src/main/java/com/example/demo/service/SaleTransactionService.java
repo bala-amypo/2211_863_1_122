@@ -7,5 +7,7 @@ public interface SaleTransactionService {
     SaleTransaction createSale(SaleTransaction transaction);
     List<SaleTransaction> getSalesByCode(Long codeId);
     List<SaleTransaction> getSalesByInfluencer(Long influencerId);
-    List<SaleTransaction> getSalesByCampaign(Long campaignId); // Requirement from 1p.pdf Page 9
+    List<SaleTransaction> getSalesByCampaign(Long campaignId);
+    // ADD THIS LINE
+    SaleTransaction getSaleById(Long id);
 }
