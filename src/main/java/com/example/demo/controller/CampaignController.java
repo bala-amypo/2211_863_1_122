@@ -2,44 +2,40 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Campaign;
 import com.example.demo.service.CampaignService;
-import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/campaigns")
+@Tag(name = "Campaigns", description = "Operations for managing marketing campaigns")
 public class CampaignController {
 
     private final CampaignService campaignService;
 
-    
     public CampaignController(CampaignService campaignService) {
         this.campaignService = campaignService;
     }
 
     @PostMapping
-    public ResponseEntity<Campaign> createCampaign(@RequestBody Campaign campaign) {
-        Campaign createdCampaign = campaignService.createCampaign(campaign);
-        return new ResponseEntity<>(createdCampaign, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Campaign> getCampaignById(@PathVariable Long id) {
-        Campaign campaign = campaignService.getCampaignById(id);
-        return ResponseEntity.ok(campaign);
+    public ResponseEntity<Campaign> create(@RequestBody Campaign campaign) {
+        return ResponseEntity.ok(campaignService.createCampaign(campaign));
     }
 
     @GetMapping
-    public ResponseEntity<List<Campaign>> getAllCampaigns() {
-        List<Campaign> campaigns = campaignService.getAllCampaigns();
-        return ResponseEntity.ok(campaigns);
+    public List<Campaign> getAll() {
+        return campaignService.getAllCampaigns();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Campaign> updateCampaign(@PathVariable Long id, @RequestBody Campaign campaign) {
-        Campaign updatedCampaign = campaignService.updateCampaign(id, campaign);
-        return ResponseEntity.ok(updatedCampaign);
+    @GetMapping("/{id}")
+    public ResponseEntity<Campaign> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(campaignService.getCampaignById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        campaignService.deleteCampaign(id);
+        return ResponseEntity.noContent().build();
     }
 }
