@@ -1,14 +1,10 @@
-package com.example.demo.exception;
+package com.example.demo.repository;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import com.example.demo.model.SaleTransaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
+public interface SaleTransactionRepository extends JpaRepository<SaleTransaction, Long> {
+    // Finds all sales linked to a specific campaign via discount codes
+    List<SaleTransaction> findByDiscountCode_Campaign_Id(Long campaignId);
 }
