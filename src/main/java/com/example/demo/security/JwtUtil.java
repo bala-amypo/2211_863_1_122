@@ -13,6 +13,17 @@ import java.util.function.Function;
 public class JwtUtil {
     private String secret = "your_very_secure_secret_key_at_least_32_chars_long";
 
+    /**
+     * Fixes error in gh.png: Overloaded method to support two-argument calls.
+     * Required by UserServiceImpl.java:[74,31]
+     */
+    public String generateToken(String email, String role) {
+        return generateToken(email, role, 0L);
+    }
+
+    /**
+     * Three-argument version used for detailed token generation.
+     */
     public String generateToken(String email, String role, long userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
@@ -31,26 +42,33 @@ public class JwtUtil {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
-    }
-
-    // Fixes Mockito mismatch on line 452 by ensuring String return
-    public String extractUserId(String token) {
-        Object userId = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().get("userId");
-        return userId != null ? String.valueOf(userId) : null;
     }
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
+    public String extractUserId(String token) {
+        Object userId = extractAllClaims(token).get("userId");
+        return userId != null ? String.valueOf(userId) : null;
+    }
+
     public Boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return true;
+            return !isTokenExpired(token);
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractAllClaims(token).getExpiration().before(new Date());
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 }
