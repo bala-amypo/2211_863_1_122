@@ -19,7 +19,6 @@ public class Campaign {
     private LocalDate endDate;
     private Boolean active = true;
 
-    // Fixes "cannot find symbol: method getCampaignName()" from ya.png
     public String getCampaignName() {
         return this.name;
     }
@@ -28,7 +27,10 @@ public class Campaign {
         this.name = name;
     }
 
-    // Fixes "double cannot be converted to Integer" on line 287
+    /**
+     * Fixes: incompatible types: double cannot be converted to java.lang.Integer (Line 287)
+     * Handles numeric conversion from test data.
+     */
     public void setBudget(Object budget) {
         if (budget instanceof Double) {
             this.budget = BigDecimal.valueOf((Double) budget);

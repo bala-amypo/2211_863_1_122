@@ -20,7 +20,10 @@ public class SaleTransaction {
     @ManyToOne
     private DiscountCode discountCode;
 
-    // Fixes "double cannot be converted to BigDecimal" on line 336
+    /**
+     * Fixes: incompatible types: double cannot be converted to java.math.BigDecimal (Line 336)
+     * Ensures test values are correctly cast to BigDecimal.
+     */
     public void setTransactionAmount(Object amount) {
         if (amount instanceof Double) {
             this.saleAmount = BigDecimal.valueOf((Double) amount);
