@@ -15,34 +15,27 @@ public class Campaign {
 
     private String name;
     private BigDecimal budget;
-    
-    // Fields required for the logic in ya.png
     private LocalDate startDate;
     private LocalDate endDate;
     private Boolean active = true;
 
-    // Fixes "cannot find symbol: method getCampaignName()"
+    // Fixes "cannot find symbol: method getCampaignName()" from ya.png
     public String getCampaignName() {
         return this.name;
     }
 
-    // Fixes "cannot find symbol: method getStartDate()"
-    public LocalDate getStartDate() {
-        return this.startDate;
-    }
-
-    // Fixes "cannot find symbol: method getEndDate()"
-    public LocalDate getEndDate() {
-        return this.endDate;
-    }
-
-    // Fixes "cannot find symbol: method getActive()"
-    public Boolean getActive() {
-        return this.active;
-    }
-
-    // Setter for the name field using the specific naming in ya.png
     public void setCampaignName(String name) {
         this.name = name;
+    }
+
+    // Fixes "double cannot be converted to Integer" on line 287
+    public void setBudget(Object budget) {
+        if (budget instanceof Double) {
+            this.budget = BigDecimal.valueOf((Double) budget);
+        } else if (budget instanceof Integer) {
+            this.budget = BigDecimal.valueOf((Integer) budget);
+        } else if (budget instanceof BigDecimal) {
+            this.budget = (BigDecimal) budget;
+        }
     }
 }

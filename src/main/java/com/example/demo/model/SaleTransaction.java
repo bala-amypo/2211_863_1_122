@@ -15,29 +15,12 @@ public class SaleTransaction {
 
     private BigDecimal saleAmount;
     private LocalDateTime transactionDate;
-    
-    // Fixes "cannot find symbol: method setCustomerId(long)" from 1q.png/2q.png
     private Long customerId;
 
     @ManyToOne
     private DiscountCode discountCode;
 
-    /**
-     * Fixes: "illegal start of expression" in 1b.png
-     * Fixes: "java.sql.Timestamp cannot be converted to LocalDateTime" in 1q.png/1g.png
-     */
-    public void setTransactionDate(Object date) {
-        if (date instanceof java.sql.Timestamp) {
-            this.transactionDate = ((java.sql.Timestamp) date).toLocalDateTime();
-        } else if (date instanceof LocalDateTime) {
-            this.transactionDate = (LocalDateTime) date;
-        }
-    }
-
-    /**
-     * Fixes: "not a statement" in 1b.png
-     * Fixes: "double cannot be converted to BigDecimal" in 1g.png/2q.png
-     */
+    // Fixes "double cannot be converted to BigDecimal" on line 336
     public void setTransactionAmount(Object amount) {
         if (amount instanceof Double) {
             this.saleAmount = BigDecimal.valueOf((Double) amount);
@@ -46,20 +29,15 @@ public class SaleTransaction {
         }
     }
 
-    /**
-     * Fixes: "cannot find symbol: method getTransactionAmount()" 
-     * Required for ROI calculations and test assertions.
-     */
     public BigDecimal getTransactionAmount() {
         return this.saleAmount;
     }
 
-    // Explicit getters/setters for customerId to ensure symbol resolution
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public Long getCustomerId() {
-        return this.customerId;
+    public void setTransactionDate(Object date) {
+        if (date instanceof java.sql.Timestamp) {
+            this.transactionDate = ((java.sql.Timestamp) date).toLocalDateTime();
+        } else if (date instanceof LocalDateTime) {
+            this.transactionDate = (LocalDateTime) date;
+        }
     }
 }
