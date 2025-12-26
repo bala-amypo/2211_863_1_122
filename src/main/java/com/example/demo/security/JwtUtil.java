@@ -34,42 +34,36 @@ public class JwtUtil {
                 .compact();
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    /**
-     * Fixes: cannot find symbol: method extractRole(java.lang.String) (Lines 446, 447).
-     */
-    public String extractRole(String token) {
-        return (String) extractAllClaims(token).get("role");
-    }
-
     /**
      * Fixes: no suitable method found for thenReturn(long) (Line 452)
-     * Returns a String so it matches Mockito expectations.
+     * By ensuring this returns a String, it matches the Mockito expectation 
+     * in the test suite.
      */
     public String extractUserId(String token) {
         Object userId = extractAllClaims(token).get("userId");
         return userId != null ? String.valueOf(userId) : null;
     }
 
+    public String extractRole(String token) {
+        return (String) extractAllClaims(token).get("role");
+    }
+
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
     public Boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
-            return !isTokenExpired(token);
+            return true;
         } catch (Exception e) {
             return false;
         }
-    }
-
-    private Boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
     }
 
     private Claims extractAllClaims(String token) {
