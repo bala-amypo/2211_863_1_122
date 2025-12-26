@@ -22,13 +22,15 @@ public class RoiReportController {
         return ResponseEntity.ok(roiService.generateRoiForCode(codeId));
     }
 
-    @GetMapping("/influencer/{influencerId}")
-    public ResponseEntity<List<RoiReport>> getByInfluencer(@PathVariable Long influencerId) {
-        return ResponseEntity.ok(roiService.getReportsByInfluencer(influencerId));
-    }
+  @GetMapping("/influencer/{influencerId}")
+public ResponseEntity<List<RoiReport>> getReportsByInfluencer(@PathVariable Long influencerId) {
+    // Change method call below:
+    return ResponseEntity.ok(roiService.getReportsForInfluencer(influencerId));
+}
 
-    @GetMapping("/campaign/{campaignId}")
-    public ResponseEntity<List<RoiReport>> getByCampaign(@PathVariable Long campaignId) {
-        return ResponseEntity.ok(roiService.getReportsByCampaign(campaignId));
-    }
+@GetMapping("/campaign/{campaignId}")
+public ResponseEntity<List<RoiReport>> getReportsByCampaign(@PathVariable Long campaignId) {
+    // Change method call below:
+    return ResponseEntity.ok(roiService.getReportsForCampaign(campaignId));
+}
 }

@@ -22,13 +22,15 @@ public class SaleTransactionController {
         return ResponseEntity.ok(service.createSale(transaction));
     }
 
-    @GetMapping("/code/{codeId}")
-    public ResponseEntity<List<SaleTransaction>> getByCode(@PathVariable Long codeId) {
-        return ResponseEntity.ok(service.getSalesByCode(codeId));
-    }
+   @GetMapping("/code/{codeId}")
+public ResponseEntity<List<SaleTransaction>> getSalesByCode(@PathVariable Long codeId) {
+    // Change method call below:
+    return ResponseEntity.ok(service.getSalesForCode(codeId));
+}
 
-    @GetMapping("/influencer/{influencerId}")
-    public ResponseEntity<List<SaleTransaction>> getByInfluencer(@PathVariable Long influencerId) {
-        return ResponseEntity.ok(service.getSalesByInfluencer(influencerId));
-    }
+@GetMapping("/influencer/{influencerId}")
+public ResponseEntity<List<SaleTransaction>> getSalesByInfluencer(@PathVariable Long influencerId) {
+    // Change method call below:
+    return ResponseEntity.ok(service.getSalesForInfluencer(influencerId));
+}
 }
