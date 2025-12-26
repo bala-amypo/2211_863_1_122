@@ -8,22 +8,27 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 public class SaleTransaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private BigDecimal saleAmount;
     private LocalDateTime transactionDate;
-    private Long customerId;
+    private Long customerId; // Fixes symbols in 1g.png
 
     @ManyToOne
     private DiscountCode discountCode;
 
-    /**
-     * Fixes: incompatible types: double cannot be converted to java.math.BigDecimal (Line 336)
-     * Standardizes numeric input from the test suite into BigDecimal.
-     */
+    // Fixes "Timestamp cannot be converted to LocalDateTime"
+    public void setTransactionDate(Object date) {
+        if (date instanceof java.sql.Timestamp) {
+            this.transactionDate = ((java.sql.Timestamp) date).toLocalDateTime();
+        } else if (date instanceof LocalDateTime) {
+            this.transactionDate = (LocalDateTime) date;
+        }
+    }
+
+    // Fixes "double cannot be converted to BigDecimal"
     public void setTransactionAmount(Object amount) {
         if (amount instanceof Double) {
             this.saleAmount = BigDecimal.valueOf((Double) amount);
@@ -32,18 +37,5 @@ public class SaleTransaction {
         }
     }
 
-    public BigDecimal getTransactionAmount() {
-        return this.saleAmount;
-    }
-
-    /**
-     * Handles conversion from java.sql.Timestamp (from tests) to LocalDateTime.
-     */
-    public void setTransactionDate(Object date) {
-        if (date instanceof java.sql.Timestamp) {
-            this.transactionDate = ((java.sql.Timestamp) date).toLocalDateTime();
-        } else if (date instanceof LocalDateTime) {
-            this.transactionDate = (LocalDateTime) date;
-        }
-    }
+    public BigDecimal getTransactionAmount() { return this.saleAmount; }
 }

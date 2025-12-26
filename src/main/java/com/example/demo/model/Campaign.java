@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @Data
 @Entity
 public class Campaign {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,21 +18,11 @@ public class Campaign {
     private LocalDate endDate;
     private Boolean active = true;
 
-    // Standard getter for Name
-    public String getCampaignName() {
-        return this.name;
-    }
+    // Fixes "cannot find symbol: method getCampaignName()"
+    public String getCampaignName() { return this.name; }
+    public void setCampaignName(String name) { this.name = name; }
 
-    // Standard setter for Name
-    public void setCampaignName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Fixes: incompatible types: double cannot be converted to java.lang.Integer (Line 287)
-     * This overloaded setter allows the test suite to pass double values 
-     * which are then safely converted to the entity's BigDecimal type.
-     */
+    // Fixes "incompatible types: double cannot be converted to Integer/BigDecimal"
     public void setBudget(Object budget) {
         if (budget instanceof Double) {
             this.budget = BigDecimal.valueOf((Double) budget);
@@ -43,4 +32,9 @@ public class Campaign {
             this.budget = (BigDecimal) budget;
         }
     }
+
+    // Explicit getters for symbols in ya.png
+    public LocalDate getStartDate() { return this.startDate; }
+    public LocalDate getEndDate() { return this.endDate; }
+    public Boolean getActive() { return this.active; }
 }
