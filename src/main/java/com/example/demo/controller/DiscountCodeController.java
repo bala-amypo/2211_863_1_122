@@ -35,4 +35,8 @@ public class DiscountCodeController {
     public ResponseEntity<List<DiscountCode>> getCodesForCampaign(@PathVariable Long campaignId) {
         return ResponseEntity.ok(service.getCodesForCampaign(campaignId));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<DiscountCode> updateDiscountCode(@PathVariable Long id, @RequestBody DiscountCode code) {
+        return ResponseEntity.ok(service.updateDiscountCode(id, code));
+    }
 }

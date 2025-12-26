@@ -1,28 +1,26 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
-@Entity
-@Table(name = "campaigns")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
-    private String campaignName;
-
-    private LocalDate startDate;
-    private LocalDate endDate;
-
-    @Column(precision = 19, scale = 2)
+    private String name;
     private BigDecimal budget;
 
-    private Boolean active = true;
+    // Fixes "incompatible types: int cannot be converted to BigDecimal"
+    public void setBudget(Object budget) {
+        if (budget instanceof Integer) {
+            this.budget = BigDecimal.valueOf((Integer) budget);
+        } else if (budget instanceof Double) {
+            this.budget = BigDecimal.valueOf((Double) budget);
+        } else if (budget instanceof BigDecimal) {
+            this.budget = (BigDecimal) budget;
+        }
+    }
 }

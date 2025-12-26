@@ -73,4 +73,19 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
         code.setActive(false);
         discountCodeRepository.save(code);
     }
+    // Inside DiscountCodeServiceImpl.java
+@Override
+public DiscountCode updateDiscountCode(Long id, DiscountCode updatedCode) {
+    DiscountCode existing = discountCodeRepository.findById(id)
+            .orElseThrow(() -> new com.example.demo.exception.ResourceNotFoundException("Discount code not found"));
+    
+    if (updatedCode.getCodeValue() != null) {
+        existing.setCode(updatedCode.getCodeValue());
+    }
+    if (updatedCode.getDiscountPercentage() != null) {
+        existing.setDiscountPercentage(updatedCode.getDiscountPercentage());
+    }
+    
+    return discountCodeRepository.save(existing);
+}
 }
