@@ -5,9 +5,7 @@ import java.util.List;
 
 public interface RoiService {
     RoiReport generateRoiForCode(Long codeId);
-    List<RoiReport> getReportsByInfluencer(Long influencerId);
-    List<RoiReport> getReportsByCampaign(Long campaignId);
-    
-    // ADD THIS LINE TO MATCH LINE 76 OF YOUR IMPL
+    List<RoiReport> getReportsForInfluencer(Long influencerId);
+    List<RoiReport> getReportsForCampaign(Long campaignId);
     RoiReport getReportById(Long id);
 }

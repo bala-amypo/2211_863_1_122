@@ -19,7 +19,6 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
     private final InfluencerRepository influencerRepository;
     private final CampaignRepository campaignRepository;
 
-    // MANDATORY: Constructor Injection with specific repository order
     public DiscountCodeServiceImpl(DiscountCodeRepository discountCodeRepository, 
                                    InfluencerRepository influencerRepository, 
                                    CampaignRepository campaignRepository) {
@@ -30,17 +29,15 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
 
     @Override
     public DiscountCode createDiscountCode(DiscountCode code) {
-        // 1. Validation: Unique code check
-        if (discountCodeRepository.findByCode(code.getCode()).isPresent()) {
+        // Sync with Model: Using getCodeValue()
+        if (discountCodeRepository.findByCode(code.getCodeValue()).isPresent()) {
             throw new IllegalArgumentException("Discount code already exists");
         }
 
-        // 2. Validation: Percentage range (Required keyword: "percentage")
         if (code.getDiscountPercentage() < 0 || code.getDiscountPercentage() > 100) {
             throw new IllegalArgumentException("Invalid discount percentage: must be between 0 and 100");
         }
 
-        // 3. Link Validation: Ensure Influencer and Campaign exist
         Influencer influencer = influencerRepository.findById(code.getInfluencer().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Influencer not found"));
         
@@ -54,17 +51,17 @@ public class DiscountCodeServiceImpl implements DiscountCodeService {
     }
 
     @Override
-    public List<DiscountCode> getCodesByInfluencer(Long influencerId) {
+    public List<DiscountCode> getCodesForInfluencer(Long influencerId) {
         return discountCodeRepository.findByInfluencer_Id(influencerId);
     }
 
     @Override
-    public List<DiscountCode> getCodesByCampaign(Long campaignId) {
+    public List<DiscountCode> getCodesForCampaign(Long campaignId) {
         return discountCodeRepository.findByCampaign_Id(campaignId);
     }
 
     @Override
-    public DiscountCode getCodeById(Long id) {
+    public DiscountCode getDiscountCodeById(Long id) {
         return discountCodeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Discount code not found"));
     }

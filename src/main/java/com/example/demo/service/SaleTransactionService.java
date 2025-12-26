@@ -5,9 +5,8 @@ import java.util.List;
 
 public interface SaleTransactionService {
     SaleTransaction createSale(SaleTransaction transaction);
-    List<SaleTransaction> getSalesByCode(Long codeId);
-    List<SaleTransaction> getSalesByInfluencer(Long influencerId);
-    List<SaleTransaction> getSalesByCampaign(Long campaignId);
-    // ADD THIS LINE
+    List<SaleTransaction> getSalesForCode(Long codeId);
+    List<SaleTransaction> getSalesForInfluencer(Long influencerId);
+    List<SaleTransaction> getSalesForCampaign(Long campaignId);
     SaleTransaction getSaleById(Long id);
 }

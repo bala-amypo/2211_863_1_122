@@ -16,7 +16,6 @@ public class RoiServiceImpl implements RoiService {
     private final SaleTransactionRepository saleTransactionRepository;
     private final DiscountCodeRepository discountCodeRepository;
 
-    // MANDATORY: Constructor Injection for Test Cases
     public RoiServiceImpl(RoiReportRepository roiReportRepository, 
                           SaleTransactionRepository saleTransactionRepository, 
                           DiscountCodeRepository discountCodeRepository) {
@@ -32,11 +31,11 @@ public class RoiServiceImpl implements RoiService {
 
         List<SaleTransaction> transactions = saleTransactionRepository.findByDiscountCode_Id(codeId);
 
+        // Sync with Model: Using getTransactionAmount()
         BigDecimal totalSales = transactions.stream()
-                .map(SaleTransaction::getSaleAmount)
+                .map(SaleTransaction::getTransactionAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Revenue logic: total sales minus the discount applied
         double discountFactor = 1 - (code.getDiscountPercentage() / 100.0);
         BigDecimal totalRevenue = totalSales.multiply(BigDecimal.valueOf(discountFactor))
                 .setScale(2, RoundingMode.HALF_UP);
@@ -44,7 +43,6 @@ public class RoiServiceImpl implements RoiService {
         BigDecimal campaignBudget = code.getCampaign().getBudget();
         BigDecimal roiPercentage = BigDecimal.ZERO;
 
-        // ROI Formula: ((Revenue - Budget) / Budget) * 100
         if (campaignBudget.compareTo(BigDecimal.ZERO) > 0) {
             roiPercentage = totalRevenue.subtract(campaignBudget)
                     .divide(campaignBudget, 4, RoundingMode.HALF_UP)
@@ -64,12 +62,12 @@ public class RoiServiceImpl implements RoiService {
     }
 
     @Override
-    public List<RoiReport> getReportsByInfluencer(Long influencerId) {
+    public List<RoiReport> getReportsForInfluencer(Long influencerId) {
         return roiReportRepository.findByInfluencer_Id(influencerId);
     }
 
     @Override
-    public List<RoiReport> getReportsByCampaign(Long campaignId) {
+    public List<RoiReport> getReportsForCampaign(Long campaignId) {
         return roiReportRepository.findByCampaign_Id(campaignId);
     }
 
