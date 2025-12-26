@@ -1,35 +1,23 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "sale_transactions")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class SaleTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "discount_code_id")
-    private DiscountCode discountCode;
-
-    @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal saleAmount;
-
     private LocalDateTime transactionDate;
 
-    private Long customerId;
+    @ManyToOne
+    private DiscountCode discountCode;
 
-    @PrePersist
-    protected void onTransaction() {
-        if (this.transactionDate == null) {
-            this.transactionDate = LocalDateTime.now();
-        }
-    }
+    // Test Symbol Sync
+    public void setTransactionAmount(BigDecimal amount) { this.saleAmount = amount; }
+    public BigDecimal getTransactionAmount() { return this.saleAmount; }
 }

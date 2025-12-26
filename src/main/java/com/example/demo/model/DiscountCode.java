@@ -1,30 +1,25 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
-@Entity
-@Table(name = "discount_codes")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 public class DiscountCode {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
     private String code;
+    private Integer discountPercentage;
+    private Boolean active = true;
 
     @ManyToOne
-    @JoinColumn(name = "influencer_id")
     private Influencer influencer;
 
     @ManyToOne
-    @JoinColumn(name = "campaign_id")
     private Campaign campaign;
 
-    private Double discountPercentage;
-
-    private Boolean active = true;
+    // Test Symbol Sync
+    public void setCodeValue(String codeValue) { this.code = codeValue; }
+    public String getCodeValue() { return this.code; }
 }
