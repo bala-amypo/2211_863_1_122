@@ -40,21 +40,20 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignRepository.save(campaign);
     }
 
-    @Override
-    public Campaign updateCampaign(Long id, Campaign campaignDetails) {
-        Campaign campaign = campaignRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Campaign not found with ID: " + id));
+   // Inside CampaignServiceImpl.java
+@Override
+public Campaign updateCampaign(Long id, Campaign campaignDetails) {
+    Campaign campaign = campaignRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Campaign not found"));
 
-        // Update logic
-        campaign.setCampaignName(campaignDetails.getCampaignName());
-        campaign.setBudget(campaignDetails.getBudget());
-        campaign.setStartDate(campaignDetails.getStartDate());
-        campaign.setEndDate(campaignDetails.getEndDate());
-        campaign.setActive(campaignDetails.getActive());
-
-        return campaignRepository.save(campaign);
-    }
-
+    // These now match the symbols in ya.png
+    campaign.setCampaignName(campaignDetails.getCampaignName());
+    campaign.setBudget(campaignDetails.getBudget());
+    campaign.setStartDate(campaignDetails.getStartDate());
+    campaign.setEndDate(campaignDetails.getEndDate());
+    
+    return campaignRepository.save(campaign);
+}
     @Override
     public Campaign getCampaignById(Long id) {
         return campaignRepository.findById(id)
@@ -73,4 +72,5 @@ public class CampaignServiceImpl implements CampaignService {
         }
         campaignRepository.deleteById(id);
     }
+    
 }
