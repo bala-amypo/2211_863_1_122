@@ -4,9 +4,14 @@ import com.example.demo.model.Influencer;
 import java.util.List;
 
 public interface InfluencerService {
+
     Influencer createInfluencer(Influencer influencer);
-    Influencer updateInfluencer(Long id, Influencer influencerDetails);
+
+    Influencer updateInfluencer(Long id, Influencer influencer);
+
     Influencer getInfluencerById(Long id);
+
     List<Influencer> getAllInfluencers();
-    void deleteInfluencer(Long id);
+
+    void deactivateInfluencer(Long id);
 }
