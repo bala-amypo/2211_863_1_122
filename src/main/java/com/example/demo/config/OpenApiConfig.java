@@ -17,7 +17,7 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI openAPI() {
 
-        // 🔐 Swagger-only JWT configuration
+        
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
@@ -33,7 +33,7 @@ public class OpenApiConfig {
                         .title("Influencer Campaign ROI Tracker API")
                         .version("1.0")
                         .description("API documentation"))
-                // 🔐 Enables Authorize button
+                
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("BearerAuth", securityScheme));
