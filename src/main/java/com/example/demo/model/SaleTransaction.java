@@ -1,41 +1,42 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
-@Data
 @Entity
 public class SaleTransaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private BigDecimal saleAmount;
-    private LocalDateTime transactionDate;
-    private Long customerId; // Fixes symbols in 1g.png
-
     @ManyToOne
     private DiscountCode discountCode;
 
-    // Fixes "Timestamp cannot be converted to LocalDateTime"
-    public void setTransactionDate(Object date) {
-        if (date instanceof java.sql.Timestamp) {
-            this.transactionDate = ((java.sql.Timestamp) date).toLocalDateTime();
-        } else if (date instanceof LocalDateTime) {
-            this.transactionDate = (LocalDateTime) date;
-        }
+    private BigDecimal transactionAmount;
+
+    private Timestamp transactionDate;
+
+    private Long customerId;
+
+    @PrePersist
+    public void onCreate() {
+        this.transactionDate = new Timestamp(System.currentTimeMillis());
     }
 
-    // Fixes "double cannot be converted to BigDecimal"
-    public void setTransactionAmount(Object amount) {
-        if (amount instanceof Double) {
-            this.saleAmount = BigDecimal.valueOf((Double) amount);
-        } else if (amount instanceof BigDecimal) {
-            this.saleAmount = (BigDecimal) amount;
-        }
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public BigDecimal getTransactionAmount() { return this.saleAmount; }
+    public DiscountCode getDiscountCode() { return discountCode; }
+    public void setDiscountCode(DiscountCode discountCode) { this.discountCode = discountCode; }
+
+    public BigDecimal getTransactionAmount() { return transactionAmount; }
+    public void setTransactionAmount(BigDecimal transactionAmount) { this.transactionAmount = transactionAmount; }
+
+    public Timestamp getTransactionDate() { return transactionDate; }
+    public void setTransactionDate(Timestamp transactionDate) { this.transactionDate = transactionDate; }
+
+    public Long getCustomerId() { return customerId; }
+    public void setCustomerId(Long customerId) { this.customerId = customerId; }
 }

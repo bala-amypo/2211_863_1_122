@@ -1,40 +1,41 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
 @Entity
 public class Campaign {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private BigDecimal budget;
+    @Column(unique = true)
+    private String campaignName;
+
     private LocalDate startDate;
     private LocalDate endDate;
-    private Boolean active = true;
 
-    // Fixes "cannot find symbol: method getCampaignName()"
-    public String getCampaignName() { return this.name; }
-    public void setCampaignName(String name) { this.name = name; }
+    private BigDecimal budget;
 
-    // Fixes "incompatible types: double cannot be converted to Integer/BigDecimal"
-    public void setBudget(Object budget) {
-        if (budget instanceof Double) {
-            this.budget = BigDecimal.valueOf((Double) budget);
-        } else if (budget instanceof Integer) {
-            this.budget = BigDecimal.valueOf((Integer) budget);
-        } else if (budget instanceof BigDecimal) {
-            this.budget = (BigDecimal) budget;
-        }
-    }
+    private boolean active = true;
 
-    // Explicit getters for symbols in ya.png
-    public LocalDate getStartDate() { return this.startDate; }
-    public LocalDate getEndDate() { return this.endDate; }
-    public Boolean getActive() { return this.active; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getCampaignName() { return campaignName; }
+    public void setCampaignName(String campaignName) { this.campaignName = campaignName; }
+
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+
+    public BigDecimal getBudget() { return budget; }
+    public void setBudget(BigDecimal budget) { this.budget = budget; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
