@@ -24,7 +24,7 @@ public class OpenApiConfig {
                         .description("API documentation"))
                 .servers(List.of(
                         new Server()
-                                .url("")
+                                .url("https://9102.32procr.amypo.ai/")
                                 .description("Production Server")
                 ))
                 .addSecurityItem(
