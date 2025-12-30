@@ -24,17 +24,17 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
 
             .authorizeHttpRequests(auth -> auth
-                // ✅ Swagger
+                
                 .requestMatchers(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/swagger-ui.html"
                 ).permitAll()
 
-                // ✅ Auth APIs
+               
                 .requestMatchers("/auth/**").permitAll()
 
-                // 🔒 Secure business APIs
+               
                 .requestMatchers(
                         "/campaigns/**",
                         "/influencers/**",
@@ -46,11 +46,11 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
             )
 
-            // ❌ Disable default login page
+           
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())
 
-            // ✅ JWT Filter
+            
             .addFilterBefore(
                 new JwtAuthenticationFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
